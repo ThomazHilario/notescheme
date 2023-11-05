@@ -91,11 +91,45 @@ export default function Home(){
         e.preventDefault()
         
         try {
+              // Pegando caminho da colecao
+              const bancoRef = collection(database,'Login-Users')
+
+              // Pegando os usuarios
+              const snapshot = await getDocs(bancoRef)
+  
+              // array
+              const users_db = []
+  
+              // Percorrendo usuarios do banco
+              snapshot.forEach(users => {
+                  users_db.push({
+                      id:users.id,
+                      name:users.data().name,
+                      password:users.data().password,
+                  })
+              })
+
+              // Pegando usuario do banco
+              let usuario = users_db.filter((item) => {
+                if(item.name === username && item.password === password){
+                    return true
+                } else{
+                    return false
+                }
+              })
+
+              // Verifiacndo se o usuario existe
+              if(usuario.length !== 0){
+                toast.success('usuario encontrado')
+              }else{
+                toast.warn('usuario nao encontrado')
+              }
 
         } catch (error) {
-            
+            console.log(error)
         }
     }
+
     // Condição de renderização
     if(pagina === true){
         return(
@@ -140,7 +174,7 @@ export default function Home(){
 
                 {/* Buttons */}
                 <div className="container_button">
-                    <button>Sing In</button>
+                    <button onClick={singInUser}>Sing In</button>
                     <button onClick={mudarValor}>Sing Up</button>
                 </div>
             </form>
