@@ -1,0 +1,66 @@
+/* Container geral das notas */
+#container_aplication_notes{
+    height: 95vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* button para chamar modal */
+#btn-note{
+    width: 220px;
+    height: 30px;
+
+    border-radius: 3px;
+    border: 0px;
+
+    background-color: rgb(99, 216, 161);
+    font-weight: bold;
+}
+
+/* Modal formulario */
+#modalFormulario{
+    display: none;
+    position: absolute;
+}
+
+/* div do formularios */
+#modalFormulario > div{
+    margin: 10px 0px;
+}
+
+/* input do formulario */
+#modalFormulario > div > input{
+    display: block;
+    width: 260px;
+
+    margin-top: 5px;
+
+    border-radius: 3px;
+    border: 2px solid black;
+}
+
+/* input da mensagem da nota */
+#modalFormulario > div > textarea{
+    display: block;
+
+    border-radius: 3px;
+    border: 2px solid black;
+}
+
+#btn-addNote{
+    display: block;
+
+    background-color: mediumpurple;
+    font-weight: bold;
+
+
+    width: 80px;
+    height: 30px;
+
+    border: 0px;
+    border-radius: 3px;
+
+    margin: auto;
+}

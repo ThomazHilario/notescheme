@@ -1,10 +1,13 @@
 import { useState } from "react";
 import './home.css'
+import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
 import database from "../../services";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 
 export default function Home(){
+    // Navegation
+    let navigate = useNavigate()
     // states - input
     const [username,setUsername] = useState('')
     const [password,setPassword] = useState('')
@@ -53,10 +56,14 @@ export default function Home(){
             if(users_db.length === 0){
 
                 // Adicionando usuario ao banco de dados
-                await addDoc(collection(database,'Login-Users'),{
+                const user = await addDoc(collection(database,'Login-Users'),{
                     name:username,
                     password:password,
+                    myNotes:[]
                 })
+
+                // navegando ate a pasta
+                navigate(`/admin/${user.id}`)
 
                 // Alerta de sucesso
                 toast.success('Usuario Cadastrado')
@@ -64,10 +71,14 @@ export default function Home(){
             } else if(!users_db.some((item) => item.name === username)){
 
                 // Adicionando usuario ao banco de dados
-                await addDoc(collection(database,'Login-Users'),{
+                const user = await addDoc(collection(database,'Login-Users'),{
                     name:username,
-                    password:password
+                    password:password,
+                    myNotes:[]
                 })
+
+                // navegando ate a pasta
+                navigate(`/admin/${user.id}`)
 
                 // Alerta de sucesso
                 toast.success('Usuario Cadastrado')
@@ -121,6 +132,9 @@ export default function Home(){
               // Verifiacndo se o usuario existe
               if(usuario.length !== 0){
                 toast.success('usuario encontrado')
+
+                // navegando ate a pasta
+                navigate(`/admin/${usuario[0].id}`)
               }else{
                 toast.warn('usuario nao encontrado')
               }
