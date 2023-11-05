@@ -2,7 +2,7 @@ import './admin.css'
 import {useState, useEffect} from 'react'
 import {useParams} from 'react-router-dom'
 import database from '../../services'
-import { doc, getDoc } from 'firebase/firestore'
+import { doc, getDoc, updateDoc } from 'firebase/firestore'
 
 export default function Admin(){
     // id
@@ -36,8 +36,24 @@ export default function Admin(){
     },[id,lista])
 
     // Adicionando notas 
-    async function addNote(){
+    async function addNote(e){
+        try {
+            // cancelando formulario
+            e.preventDefault()
 
+            // Buscando a referencia
+            const docRef = doc(database,'Login-Users',id)
+
+            // Atualizando notas
+            await updateDoc(docRef,{
+                myNotes:[...lista,{title:title,anotation:anotation}]
+            })
+
+            // Fechando modal
+            document.getElementById('modalFormulario').style.display = 'none'
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     // Exibindo modal
@@ -82,9 +98,9 @@ export default function Admin(){
                 {/* notas */}
                 {lista.map((item,idx) => {
                     return(
-                        <div key={idx}>
+                        <div key={idx} className='card'>
                             <h1>{item.title}</h1>
-                            <p>{item.note}</p>
+                            <p>{item.anotation}</p>
                         </div>
                     )
                 })}
