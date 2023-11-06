@@ -41,22 +41,24 @@ export default function Admin(){
             // cancelando formulario
             e.preventDefault()
 
-            // Fechando modal
-            document.getElementById('modalFormulario').style.display = 'none'
+           if(title !== '' && anotation !== ''){
+             // Fechando modal
+             document.getElementById('modalFormulario').style.display = 'none'
             
-            // Buscando a referencia
-            const docRef = doc(database,'Login-Users',id)
-
-            // Atualizando notas
-            await updateDoc(docRef,{
-                myNotes:[...lista,{title:title,anotation:anotation}]
-            })
-
-            
-
-            // Zerando inputs
-            setTitle('')
-            setAnotation('')
+             // Buscando a referencia
+             const docRef = doc(database,'Login-Users',id)
+ 
+             // Atualizando notas
+             await updateDoc(docRef,{
+                 myNotes:[...lista,{title:title,anotation:anotation}]
+             })
+ 
+             
+ 
+             // Zerando inputs
+             setTitle('')
+             setAnotation('')
+           }
 
         } catch (error) {
             console.log(error)
