@@ -1,3 +1,13 @@
+/* animacoes */
+@keyframes animationModal{
+    0%{transform: translateY(-40px);}
+}
+
+@keyframes animationCards{
+    0%{transform: translateX(20px);}
+}
+
+
 /* Container geral das notas */
 #container_aplication_notes{
     height: 95vh;
@@ -23,6 +33,9 @@
 #modalFormulario{
     display: none;
     position: absolute;
+
+    animation-name: animationModal;
+    animation-duration: 0.5s;
 }
 
 /* div do formularios */
@@ -87,6 +100,10 @@
     font-family: arial;
 
     color: white;
+
+
+    animation-name: animationCards;
+    animation-duration: 0.5s;
 }
 
 /* title */
@@ -114,4 +131,24 @@
     background-color: rgb(229, 88, 88);
 
     cursor: pointer;
+}
+
+/* width-768px */
+@media screen and (min-width:768px){
+    #container_notes{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (min-width:1024px){
+    #container_notes{
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media screen  and (min-width:1280px){
+    #container_notes{
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
 }

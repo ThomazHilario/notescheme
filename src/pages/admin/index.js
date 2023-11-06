@@ -41,6 +41,9 @@ export default function Admin(){
             // cancelando formulario
             e.preventDefault()
 
+            // Fechando modal
+            document.getElementById('modalFormulario').style.display = 'none'
+            
             // Buscando a referencia
             const docRef = doc(database,'Login-Users',id)
 
@@ -49,8 +52,7 @@ export default function Admin(){
                 myNotes:[...lista,{title:title,anotation:anotation}]
             })
 
-            // Fechando modal
-            document.getElementById('modalFormulario').style.display = 'none'
+            
 
             // Zerando inputs
             setTitle('')
