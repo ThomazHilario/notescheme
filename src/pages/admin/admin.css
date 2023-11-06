@@ -63,6 +63,8 @@
     border-radius: 3px;
 
     margin: auto;
+
+    cursor: pointer;
 }
 
 
@@ -97,4 +99,19 @@
 .card > p{
     text-align: justify;
     margin: 8px 0px;
+    width: 290px;
+}
+
+/* btn-delete */
+#btn-delete{
+    border: 0px;
+    border-radius: 3px;
+    
+    height: 23px;
+    width: 80px;
+    font-weight: bold;
+
+    background-color: rgb(229, 88, 88);
+
+    cursor: pointer;
 }

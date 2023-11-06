@@ -51,6 +51,11 @@ export default function Admin(){
 
             // Fechando modal
             document.getElementById('modalFormulario').style.display = 'none'
+
+            // Zerando inputs
+            setTitle('')
+            setAnotation('')
+
         } catch (error) {
             console.log(error)
         }
@@ -65,6 +70,24 @@ export default function Admin(){
         }
     }
 
+    // Excluindo nota
+    async function deleteNote(index){
+        try {
+            // Tirando item da lista
+            lista.splice(index,1)
+
+            // Buscando o banco de referencia
+            const docRef = doc(database,'Login-Users',id)
+
+            // Alterando a nova lista
+            await updateDoc(docRef, {
+                myNotes:[...lista]
+            })
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return(
         <div id='container_aplication_notes'>
 
@@ -101,6 +124,7 @@ export default function Admin(){
                         <div key={idx} className='card'>
                             <h1>{item.title}</h1>
                             <p>{item.anotation}</p>
+                            <button id='btn-delete' onClick={() => deleteNote(idx)}>Delete</button>
                         </div>
                     )
                 })}

@@ -53,7 +53,7 @@ export default function Home(){
                 })
             })
 
-            if(users_db.length === 0){
+            if(users_db.length === 0 && username !== '' && password !== ''){
 
                 // Adicionando usuario ao banco de dados
                 const user = await addDoc(collection(database,'Login-Users'),{
@@ -68,7 +68,7 @@ export default function Home(){
                 // Alerta de sucesso
                 toast.success('Usuario Cadastrado')
 
-            } else if(!users_db.some((item) => item.name === username)){
+            } else if(!users_db.some((item) => item.name === username) && username !== '' && password !== ''){
 
                 // Adicionando usuario ao banco de dados
                 const user = await addDoc(collection(database,'Login-Users'),{
@@ -159,13 +159,13 @@ export default function Home(){
                 {/* Password */}
                 <div className="container_input">
                     <label>Password:</label>
-                    <input type="text" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                 </div>
 
                 {/* Buttons */}
                 <div className="container_button">
-                    <button onClick={singUpUser}>Sing Up</button>
-                    <button onClick={mudarValor}>Sing In</button>
+                    <button onClick={singUpUser}>Cadastrar</button>
+                    <button onClick={mudarValor}>Fazer login</button>
                 </div>
             </form>
         )
@@ -183,13 +183,13 @@ export default function Home(){
                 {/* Password */}
                 <div className="container_input">
                     <label>Password:</label>
-                    <input type="text" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                 </div>
 
                 {/* Buttons */}
                 <div className="container_button">
-                    <button onClick={singInUser}>Sing In</button>
-                    <button onClick={mudarValor}>Sing Up</button>
+                    <button onClick={singInUser}>Entrar</button>
+                    <button onClick={mudarValor}>Fazer Cadastro</button>
                 </div>
             </form>
         )
