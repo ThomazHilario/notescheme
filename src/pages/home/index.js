@@ -6,6 +6,7 @@ import database from "../../services";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 
 export default function Home(){
+    
     // Navegation
     let navigate = useNavigate()
     // states - input
@@ -33,7 +34,6 @@ export default function Home(){
     async function singUpUser(e){
         // cancelando formulario
         e.preventDefault()
-
         try {
             // Pegando caminho da colecao
             const bancoRef = collection(database,'Login-Users')
