@@ -2,8 +2,9 @@ import { useState } from "react";
 import './home.css'
 import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
-import database from "../../services";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import {database, auth} from "../../services";
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
+import { doc, setDoc } from "firebase/firestore";
 
 export default function Home(){
     
@@ -35,62 +36,28 @@ export default function Home(){
         // cancelando formulario
         e.preventDefault()
         try {
-            // Pegando caminho da colecao
-            const bancoRef = collection(database,'Login-Users')
+            // Criando usuario
+            const users = await createUserWithEmailAndPassword(auth,username,password)
 
-            // Pegando os usuarios
-            const snapshot = await getDocs(bancoRef)
+            // Criando banco de dados deste usuario
+            await setDoc(doc(database, "Login-Users", users.user.uid), {
+                myNotes:[]
+            });
 
-            // array
-            const users_db = []
+            // navegando ate a pasta
+            navigate(`/admin/${users.user.uid}`)
 
-            // Percorrendo usuarios do banco
-            snapshot.forEach(users => {
-                users_db.push({
-                    id:users.id,
-                    name:users.data().name,
-                    password:users.data().password,
-                })
-            })
-
-            if(users_db.length === 0 && username !== '' && password !== ''){
-
-                // Adicionando usuario ao banco de dados
-                const user = await addDoc(collection(database,'Login-Users'),{
-                    name:username,
-                    password:password,
-                    myNotes:[]
-                })
-
-                // navegando ate a pasta
-                navigate(`/admin/${user.id}`)
-
-                // Alerta de sucesso
-                toast.success('Usuario Cadastrado')
-
-            } else if(!users_db.some((item) => item.name === username) && username !== '' && password !== ''){
-
-                // Adicionando usuario ao banco de dados
-                const user = await addDoc(collection(database,'Login-Users'),{
-                    name:username,
-                    password:password,
-                    myNotes:[]
-                })
-
-                // navegando ate a pasta
-                navigate(`/admin/${user.id}`)
-
-                // Alerta de sucesso
-                toast.success('Usuario Cadastrado')
-
-            }else{
-
-                // Alerta de error
-                toast.error('Tente outro username!')
-            }
+            // Alerta de sucesso
+            toast.success('Usuario Cadastrado')
 
         } catch (error) {
-            console.log(error)
+            // Caso o email ja esteja registrado.
+            if(error.code === 'auth/email-already-in-use'){
+                toast.error('Este email ja foi registrado!')
+            } else{
+                // Caso a senha tenha menos de 6 caracteres.
+                toast.warn('A sua senha deve conter ate 6 caracteres!!')
+            }
         }
 
 
@@ -102,45 +69,16 @@ export default function Home(){
         e.preventDefault()
         
         try {
-              // Pegando caminho da colecao
-              const bancoRef = collection(database,'Login-Users')
+            // Encontrado usuario
+             const user = await signInWithEmailAndPassword(auth,username,password)
+            
+             // Navegando ate a pagina deste usuario
+             navigate(`/admin/${user.user.uid}`)
 
-              // Pegando os usuarios
-              const snapshot = await getDocs(bancoRef)
-  
-              // array
-              const users_db = []
-  
-              // Percorrendo usuarios do banco
-              snapshot.forEach(users => {
-                  users_db.push({
-                      id:users.id,
-                      name:users.data().name,
-                      password:users.data().password,
-                  })
-              })
-
-              // Pegando usuario do banco
-              let usuario = users_db.filter((item) => {
-                if(item.name === username && item.password === password){
-                    return true
-                } else{
-                    return false
-                }
-              })
-
-              // Verifiacndo se o usuario existe
-              if(usuario.length !== 0){
-                toast.success('usuario encontrado')
-
-                // navegando ate a pasta
-                navigate(`/admin/${usuario[0].id}`)
-              }else{
-                toast.warn('usuario nao encontrado')
-              }
-
+             // Mensagem de boas vindas
+             toast.info('Bem vindo ao noteScheme')
         } catch (error) {
-            console.log(error)
+                toast.warn('Email ou senha Invalido!')
         }
     }
 

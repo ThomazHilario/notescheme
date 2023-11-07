@@ -1,7 +1,7 @@
 import './admin.css'
 import {useState, useEffect} from 'react'
 import {useParams} from 'react-router-dom'
-import database from '../../services'
+import {database} from '../../services'
 import { doc, getDoc, updateDoc } from 'firebase/firestore'
 
 export default function Admin(){
