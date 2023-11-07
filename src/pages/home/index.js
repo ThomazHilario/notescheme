@@ -11,12 +11,11 @@ export default function Home(){
     // Navegation
     let navigate = useNavigate()
     // states - input
-    const [username,setUsername] = useState('')
+    const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
 
     // states - rederização
     const [pagina,setPagina] = useState(true)
-
 
     // Mudando o valor da state para false
     function mudarValor(e){
@@ -37,7 +36,7 @@ export default function Home(){
         e.preventDefault()
         try {
             // Criando usuario
-            const users = await createUserWithEmailAndPassword(auth,username,password)
+            const users = await createUserWithEmailAndPassword(auth,email,password)
 
             // Criando banco de dados deste usuario
             await setDoc(doc(database, "Login-Users", users.user.uid), {
@@ -70,7 +69,7 @@ export default function Home(){
 
         try {
             // Encontrado usuario
-             const user = await signInWithEmailAndPassword(auth,username,password)
+             const user = await signInWithEmailAndPassword(auth,email,password)
             
              // Navegando ate a pagina deste usuario
              navigate(`/admin/${user.user.uid}`)
@@ -103,8 +102,8 @@ export default function Home(){
                 
                 {/* name */}
                 <div className="container_input">
-                    <label>Username:</label>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
+                    <label>Email:</label>
+                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
                 </div>
 
                 {/* Password */}
@@ -128,7 +127,7 @@ export default function Home(){
                 {/* name */}
                 <div className="container_input">
                     <label>Username:</label>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
+                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
                 </div>
 
                 {/* Password */}
