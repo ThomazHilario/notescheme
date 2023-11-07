@@ -17,9 +17,19 @@
     gap: 10px;
 }
 
+/* Container buttons*/
+#container_buttons{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    
+    height: 10vh;
+    width: 300px;
+}
+
 /* button para chamar modal */
 #btn-note{
-    width: 220px;
+    width: 80px;
     height: 30px;
 
     border-radius: 3px;
@@ -27,6 +37,23 @@
 
     background-color: rgb(99, 216, 161);
     font-weight: bold;
+
+    cursor: pointer;
+}
+
+/* btn-singOut*/
+#btn-singOut{
+    width: 80px;
+    height: 30px;
+
+    border-radius: 3px;
+    border: 0px;
+
+    background-color: rgb(40, 40, 40);
+    color: white;
+    font-weight: bold;
+
+    cursor: pointer;
 }
 
 /* Modal formulario */
@@ -139,16 +166,28 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
+
+    #container_buttons{
+        width: 768px;
+    }
 }
 
 @media screen and (min-width:1024px){
     #container_notes{
         grid-template-columns: 1fr 1fr 1fr;
     }
+    
+    #container_buttons{
+        width: 1024px;
+    }
 }
 
 @media screen  and (min-width:1280px){
     #container_notes{
         grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    #container_buttons{
+        width: 1280px;
     }
 }

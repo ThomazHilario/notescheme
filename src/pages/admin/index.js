@@ -1,12 +1,16 @@
 import './admin.css'
 import {useState, useEffect} from 'react'
-import {useParams} from 'react-router-dom'
-import {database} from '../../services'
+import {useParams, useNavigate} from 'react-router-dom'
+import {database, auth} from '../../services'
 import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import {signOut} from 'firebase/auth'
 
 export default function Admin(){
     // id
     const {id} =useParams()
+
+    // navigate
+    const navigate = useNavigate()
 
     // state - input
     const [title, setTitle] = useState('')
@@ -92,11 +96,29 @@ export default function Admin(){
             console.log(error)
         }
     }
+
+    // Saindo da conta
+    async function logOut(){
+        
+        try{
+            await signOut(auth)
+            navigate('/')  
+
+        }catch(error){
+            console.log(error)
+        }
+    }
+
     return(
         <div id='container_aplication_notes'>
 
-            {/* button */}
-            <button id='btn-note' onClick={openModal}>Add note</button>
+            <div id='container_buttons'>
+                {/* button openModal*/}
+                <button id='btn-note' onClick={openModal}>Add note</button>
+
+                {/* button logOut */}
+                <button id='btn-singOut' onClick={logOut}>Sair</button>
+            </div>
 
             {/* Modal */}
             <form id='modalFormulario'>
