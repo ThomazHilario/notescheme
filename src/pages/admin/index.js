@@ -19,6 +19,11 @@ export default function Admin(){
     // state - lista
     const [lista,setLista] = useState([])
 
+    // state - edit e id
+    const [index, setIndex] = useState(null)
+    const [editar, setEditar] = useState('')
+
+
     // Pegando minha lista
     useEffect(() => {
         async function loadLista(){
@@ -78,6 +83,45 @@ export default function Admin(){
         }
     }
 
+    // Exibindo modal de edição
+    function openEditModal(index){
+        if(document.getElementById('editModal').style.display === 'flex'){
+            document.getElementById('editModal').style.display = 'none'
+        } else{
+            document.getElementById('editModal').style.display = 'flex'
+            setIndex(index)
+        }
+    }
+
+    // Editando nota
+    async function editNote(e){
+        try {
+            // Cancelando envio do formulario
+            e.preventDefault()
+
+            // Buscando a referencia
+            const docRef = doc(database,'Login-Users',id)
+            
+            let value = lista[index]
+            // Atualizando notas
+            
+            // Alterando o valor do anotation
+            value.anotation = editar
+
+            // Atualizando a nova lista
+            await updateDoc(docRef,{
+                myNotes:[...lista]
+            })
+
+            // fechando modal
+            document.getElementById('editModal').style.display = 'none'
+
+            // Resetando state editar
+            setEditar('')
+        } catch (error) {
+            console.log(error)
+        }
+    }
     // Excluindo nota
     async function deleteNote(index){
         try {
@@ -120,7 +164,7 @@ export default function Admin(){
                 <button id='btn-singOut' onClick={logOut}>Sair</button>
             </div>
 
-            {/* Modal */}
+            {/* Modal addNote*/}
             <form id='modalFormulario'>
 
                 {/* title */}
@@ -141,6 +185,16 @@ export default function Admin(){
                 </div>
             </form>
 
+            {/* Modal editNote */}
+            <form id='editModal'>
+                {/* titulo */}
+                <legend>Editando</legend>
+
+                {/* textarea */}
+                <textarea type="text" rows="5" cols="35" value={editar} onChange={(e) => setEditar(e.target.value)}/>
+
+                <button className='btn-style' onClick={editNote}>Editar</button>
+            </form>
             {/* Container de notas */}
             <div id='container_notes'>
 
@@ -150,7 +204,8 @@ export default function Admin(){
                         <div key={idx} className='card'>
                             <h1>{item.title}</h1>
                             <p>{item.anotation}</p>
-                            <button id='btn-delete' onClick={() => deleteNote(idx)}>Delete</button>
+                            <button className='btn-style' id='btn-delete' onClick={() => deleteNote(idx)}>Delete</button>
+                            <button className='btn-style' id='btn-edit' onClick={() => openEditModal(idx)}>Editar</button>
                         </div>
                     )
                 })}
