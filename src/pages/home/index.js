@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import './home.css'
 import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {database, auth} from "../../services";
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged} from 'firebase/auth'
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
 import { doc, setDoc } from "firebase/firestore";
 
 export default function Home(){
@@ -81,19 +81,6 @@ export default function Home(){
         }
     }
 
-    // verificando se o login ja foi feito
-    useEffect(() => {
-        async function loaduser(){
-            onAuthStateChanged(auth,(user) => {
-                if(user){
-                    navigate(`/admin/${user.uid}`)
-                }
-            })
-        }
-
-        loaduser()
-    },[navigate])
-
     // Condição de renderização
     if(pagina === true){
         return(
@@ -126,7 +113,7 @@ export default function Home(){
 
                 {/* name */}
                 <div className="container_input">
-                    <label>Username:</label>
+                    <label>Email:</label>
                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
                 </div>
 
