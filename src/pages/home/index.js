@@ -1,15 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import './home.css'
 import {useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {database, auth} from "../../services";
-import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from 'firebase/auth'
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword,onAuthStateChanged} from 'firebase/auth'
 import { doc, setDoc } from "firebase/firestore";
 
 export default function Home(){
-    
+
     // Navegation
     let navigate = useNavigate()
+
+    // verificando na rota inicial se o usuario já está logado.
+    useEffect(() => {
+
+        // Função login - verificando se o usuario ja fez login
+        async function login(){
+            
+            await onAuthStateChanged(auth,(user) => {
+                // Caso tenha feito o login
+                if(user){
+                    navigate(`/admin/${user.uid}`)
+                }
+            })
+        }
+
+        // Executando a função login.
+        login()
+
+    },[navigate])
+
     // states - input
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
