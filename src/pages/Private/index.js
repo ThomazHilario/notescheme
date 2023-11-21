@@ -7,9 +7,10 @@ export default function Private( {children} ){
     const [logado,setLogado] = useState(null)
 
     useEffect(() => {
-        // 
+        // loadLogin - Verificando se o usuario já fez o login
         async function loadLogin(){
             await onAuthStateChanged(auth,(user) => {
+                // Caso tenha feito
                 if(user){
                     setLogado(true)
                 } else{
@@ -18,10 +19,11 @@ export default function Private( {children} ){
             })
         }
 
-        // 
+        // Executando a função loadLogin.
         loadLogin()
     },[])
 
+    // Redirecionando a pagina de destino de acordo com a condição
     if(logado === false){
         return <Navigate to='/' replace={true}/>
     } else{    
