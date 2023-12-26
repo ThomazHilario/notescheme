@@ -1,11 +1,13 @@
 import {useState} from 'react'
-import { Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { database, auth } from '../../services'
 import { setDoc, doc } from 'firebase/firestore'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { toast } from 'react-toastify'
 
 export default function Register(){
+
+    const navigate = useNavigate()
 
     // states - input
     const [email,setEmail] = useState('')
@@ -16,7 +18,7 @@ export default function Register(){
     async function singUpUser(e){
         // cancelando formulario
         e.preventDefault()
-        
+
         try {
             // Criando usuario
             const users = await createUserWithEmailAndPassword(auth,email,password)
@@ -27,7 +29,7 @@ export default function Register(){
             });
 
             // navegando ate a pasta
-            <Navigate to={`/admin/${users.user.uid}`} replace={true}/>
+            navigate(`/admin/${users.user.uid}`)
 
             // Alerta de sucesso
             toast.success('Usuario Cadastrado')
