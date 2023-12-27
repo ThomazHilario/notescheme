@@ -1,12 +1,28 @@
-import {useState} from 'react'
-import { useNavigate } from 'react-router-dom'
+import {useState, useEffect} from 'react'
+import { useNavigate, Navigate } from 'react-router-dom'
 import { database, auth } from '../../services'
 import { setDoc, doc } from 'firebase/firestore'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth'
 import { toast } from 'react-toastify'
 
 export default function Register(){
 
+    // Usando oo useEffect para verificar se o usuario ja efetuou o login.
+    useEffect(() => {
+        async function verifyLogin(){
+            await onAuthStateChanged(auth, (user) => {
+                // Caso tenha user levar o usuario a pagina dele.
+                if(user){
+                    <Navigate to={`admin/${user.uid}`} replace={true}/>
+                }
+            })
+        }
+
+        // Chamando verifyLogin
+        verifyLogin()
+    },[])
+
+    // Navigate
     const navigate = useNavigate()
 
     // states - input
