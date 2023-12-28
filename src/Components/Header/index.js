@@ -2,7 +2,7 @@ import { auth } from "../../services"
 import { signOut } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 
-export default function Headers(){
+export default function Header(){
 
     // navigate
     const navigate = useNavigate() 

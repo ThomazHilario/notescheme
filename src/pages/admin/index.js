@@ -1,16 +1,13 @@
 import './admin.css'
 import {useState, useEffect} from 'react'
-import {useParams, useNavigate} from 'react-router-dom'
-import {database, auth} from '../../services'
+import {useParams } from 'react-router-dom'
+import {database } from '../../services'
 import { doc, getDoc, updateDoc } from 'firebase/firestore'
-import {signOut} from 'firebase/auth'
+import Header from '../../Components/Header'
 
 export default function Admin(){
     // id
     const {id} =useParams()
-
-    // navigate
-    const navigate = useNavigate()
 
     // state - input
     const [title, setTitle] = useState('')
@@ -74,15 +71,6 @@ export default function Admin(){
         }
     }
 
-    // Exibindo modal
-    function openModal(){
-        if(document.getElementById('modalFormulario').style.display === 'block'){
-            document.getElementById('modalFormulario').style.display = 'none'
-        } else{
-            document.getElementById('modalFormulario').style.display = 'block'
-        }
-    }
-
     // Exibindo modal de edição
     function openEditModal(index){
         if(document.getElementById('editModal').style.display === 'flex'){
@@ -141,28 +129,10 @@ export default function Admin(){
         }
     }
 
-    // Saindo da conta
-    async function logOut(){
-        
-        try{
-            await signOut(auth)
-            navigate('/')  
-
-        }catch(error){
-            console.log(error)
-        }
-    }
-
     return(
         <div id='container_aplication_notes'>
 
-            <div id='container_buttons'>
-                {/* button openModal*/}
-                <button id='btn-note' onClick={openModal}>Add note</button>
-
-                {/* button logOut */}
-                <button id='btn-singOut' onClick={logOut}>Sair</button>
-            </div>
+            <Header/>
 
             {/* Modal addNote*/}
             <form id='modalFormulario'>
