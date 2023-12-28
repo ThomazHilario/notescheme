@@ -41,36 +41,6 @@ export default function Admin(){
         loadLista()
     },[id,lista])
 
-    // Adicionando notas 
-    async function addNote(e){
-        try {
-            // cancelando formulario
-            e.preventDefault()
-
-           if(title !== '' && anotation !== ''){
-             // Fechando modal
-             document.getElementById('modalFormulario').style.display = 'none'
-            
-             // Buscando a referencia
-             const docRef = doc(database,'Login-Users',id)
- 
-             // Atualizando notas
-             await updateDoc(docRef,{
-                 myNotes:[...lista,{title:title,anotation:anotation}]
-             })
- 
-             
- 
-             // Zerando inputs
-             setTitle('')
-             setAnotation('')
-           }
-
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
     // Exibindo modal de edição
     function openEditModal(index){
         if(document.getElementById('editModal').style.display === 'flex'){
@@ -132,28 +102,11 @@ export default function Admin(){
     return(
         <div id='container_aplication_notes'>
 
+            {/* Componente Header */}
             <Header/>
 
             {/* Modal addNote*/}
-            <form id='modalFormulario'>
-
-                {/* title */}
-                <div>
-                    <label>Title:</label>
-                    <input type='text' value={title} onChange={(e) => setTitle(e.target.value)}/>
-                </div>
-
-                {/* anotation */}
-                <div>
-                    <label>Anotation:</label>
-                    <textarea type='text' rows='5' cols='35' value={anotation} onChange={(e) => setAnotation(e.target.value)}/>
-                </div>
-
-                {/* button */}
-                <div>
-                    <button onClick={addNote} id='btn-addNote'>Add</button>
-                </div>
-            </form>
+            <ModalForm title={title} setTitle={setTitle} anotation={anotation} setAnotation={setAnotation} id={id} lista={lista}/>
 
             {/* Modal editNote */}
             <form id='editModal'>
@@ -165,6 +118,7 @@ export default function Admin(){
 
                 <button className='btn-style' onClick={editNote}>Editar</button>
             </form>
+
             {/* Container de notas */}
             <div id='container_notes'>
 
@@ -182,5 +136,61 @@ export default function Admin(){
 
             </div>
         </div>
+    )
+}
+
+
+function ModalForm({title,setTitle,anotation,setAnotation,id,lista}){
+
+    // Adicionando notas 
+    async function addNote(e){
+        try {
+            // cancelando formulario
+            e.preventDefault()
+
+           if(title !== '' && anotation !== ''){
+             // Fechando modal
+             document.getElementById('modalFormulario').style.display = 'none'
+            
+             // Buscando a referencia
+             const docRef = doc(database,'Login-Users',id)
+ 
+             // Atualizando notas
+             await updateDoc(docRef,{
+                 myNotes:[...lista,{title:title,anotation:anotation}]
+             })
+ 
+             
+ 
+             // Zerando inputs
+             setTitle('')
+             setAnotation('')
+           }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    return(
+        <form id='modalFormulario'>
+
+            {/* title */}
+            <div>
+                <label>Title:</label>
+                <input type='text' value={title} onChange={(e) => setTitle(e.target.value)}/>
+            </div>
+
+            {/* anotation */}
+            <div>
+                <label>Anotation:</label>
+                <textarea type='text' rows='5' cols='35' value={anotation} onChange={(e) => setAnotation(e.target.value)}/>
+            </div>
+
+            {/* button */}
+            <div>
+                <button onClick={addNote} id='btn-addNote'>Add</button>
+            </div>
+        </form>
     )
 }
