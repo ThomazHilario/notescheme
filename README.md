@@ -1,7 +1,7 @@
 # NoteScheme - App de Bloco de notas Pessoal
 Link do Projeto: https://note-scheme.netlify.app
 
-## Tecnologías usadas:
+## Tecnologias usadas:
 * React
 * Firebase
 
