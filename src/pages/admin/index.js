@@ -57,25 +57,27 @@ export default function Admin(){
             // Cancelando envio do formulario
             e.preventDefault()
 
-            // Buscando a referencia
-            const docRef = doc(database,'Login-Users',id)
-            
-            let value = lista[index]
-            // Atualizando notas
-            
-            // Alterando o valor do anotation
-            value.anotation = editar
+            if(editar !== ''){
+                // Buscando a referencia
+                const docRef = doc(database,'Login-Users',id)
+                
+                let value = lista[index]
+                // Atualizando notas
+                
+                // Alterando o valor do anotation
+                value.anotation = editar
 
-            // Atualizando a nova lista
-            await updateDoc(docRef,{
-                myNotes:[...lista]
-            })
+                // Atualizando a nova lista
+                await updateDoc(docRef,{
+                    myNotes:[...lista]
+                })
 
-            // fechando modal
-            document.getElementById('editModal').style.display = 'none'
+                // fechando modal
+                document.getElementById('editModal').style.display = 'none'
 
-            // Resetando state editar
-            setEditar('')
+                // Resetando state editar
+                setEditar('')
+            }
         } catch (error) {
             console.log(error)
         }
