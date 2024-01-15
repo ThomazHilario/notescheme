@@ -176,6 +176,10 @@
     background-color: rgb(93, 220, 93);
 }
 
+.btn-style, .btn-edit{
+    background-color: rgb(93, 220, 93);
+}
+
 /* width-768px */
 @media screen and (min-width:768px){
     #container_notes{

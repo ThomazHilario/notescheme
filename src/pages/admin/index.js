@@ -17,6 +17,7 @@ export default function Admin(){
     const [lista,setLista] = useState([])
 
     // state - edit e id
+    const [titleNote, setTitleNote] = useState('')
     const [index, setIndex] = useState(null)
     const [editar, setEditar] = useState('')
 
@@ -45,9 +46,25 @@ export default function Admin(){
     function openEditModal(index){
         if(document.getElementById('editModal').style.display === 'flex'){
             document.getElementById('editModal').style.display = 'none'
+            document.getElementById('btn-edit').textContent = 'Editar'
+
+            // Limpando states titleNotes e editar
+            setTitleNote('')
+            setEditar('')
+
         } else{
             document.getElementById('editModal').style.display = 'flex'
+            document.getElementById('btn-edit').textContent = 'Fechar'
             setIndex(index)
+
+            // Buscando nota pelo index
+            const value = lista[index]
+
+            // Setando o title na state titleNote
+            setTitleNote(value.title)
+
+            // Setando a anotaions na state anotation
+            setEditar(value.anotation)
         }
     }
 
@@ -61,8 +78,8 @@ export default function Admin(){
                 // Buscando a referencia
                 const docRef = doc(database,'Login-Users',id)
                 
+                // buscando nota no banco de dados do usuario
                 let value = lista[index]
-                // Atualizando notas
                 
                 // Alterando o valor do anotation
                 value.anotation = editar
@@ -74,6 +91,9 @@ export default function Admin(){
 
                 // fechando modal
                 document.getElementById('editModal').style.display = 'none'
+
+                // Alterando o conteudo do button btn-edit
+                document.getElementById('btn-edit').textContent = 'Editar'
 
                 // Resetando state editar
                 setEditar('')
@@ -113,19 +133,19 @@ export default function Admin(){
             {/* Modal editNote */}
             <form id='editModal'>
                 {/* titulo */}
-                <legend>Editando</legend>
+                <legend>Editando: {titleNote}</legend>
 
                 {/* textarea */}
                 <textarea type="text" rows="5" cols="35" value={editar} onChange={(e) => setEditar(e.target.value)}/>
 
-                <button className='btn-style' onClick={editNote}>Editar</button>
+                <button className='btn-style btn-edit' onClick={editNote}>Editar</button>
             </form>
 
             {/* Container de notas */}
             <div id='container_notes'>
 
                 {/* notas */}
-                {lista.map((item,idx) => {
+                {lista.length > 0 && lista.map((item,idx) => {
                     return(
                         <div key={idx} className='card'>
                             <h1>{item.title}</h1>
