@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import './home.css'
-import {useNavigate} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import {toast} from 'react-toastify'
 import {auth} from "../../services";
 import {signInWithEmailAndPassword,onAuthStateChanged} from 'firebase/auth'
@@ -72,6 +72,7 @@ export default function Home(){
                 {/* Buttons */}
                 <div className="container_button">
                     <button onClick={singInUser}>Entrar</button>
+                    <Link to='/register' >Não possui uma conta ? Cadastre-se</Link>
                 </div>
             </form>
         )
